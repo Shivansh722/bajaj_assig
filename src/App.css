@@ -1,6 +1,6 @@
 .App {
   min-height: 100vh;
-  background: #f5f6fa;
+  background: white;  /* Changed from #f5f6fa to white */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,7 +24,7 @@
 
 .login-right {
   flex: 1;
-  background-image: url('../public/assets/team-meeting.png');
+  background-image: url('../public/assets/man-sits.png');
   background-size: cover;
   background-position: center;
   position: relative;
@@ -36,7 +36,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.3);  /* Changed from rgba(0, 0, 0, 0.2) to a whitish overlay */
 }
 
 .login-form h2 {
