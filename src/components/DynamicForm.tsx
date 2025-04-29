@@ -126,13 +126,40 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ rollNumber }) => {
           />
         );
       case 'dropdown':
+      case 'radio':  // Handle both dropdown and radio cases
+        if (field.fieldId === 'gender') {
+          return (
+            <div className="field-wrapper">
+              <select
+                value={formValues[field.fieldId] || ''}
+                onChange={(e) => handleInputChange(field.fieldId, e.target.value)}
+                className="field-select"
+              >
+                <option value="">Select {field.label}</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="non-binary">Non-binary</option>
+                <option value="self-describe">Self-describe</option>
+                <option value="prefer-not-to-say">Prefer not to say</option>
+              </select>
+              <div className="field-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 2a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 20a7 7 0 1 1 0-14 7 7 0 0 1 0 14z"/>
+                  <path d="M12 8v8M8 12h8"/>
+                </svg>
+              </div>
+            </div>
+          );
+        }
+        // For all other fields, render as dropdown
         return (
           <select
             value={formValues[field.fieldId] || ''}
             onChange={(e) => handleInputChange(field.fieldId, e.target.value)}
             data-testid={field.dataTestId}
+            className="field-select"
           >
-            <option value="">Select an option</option>
+            <option value="">Select {field.label}</option>
             {field.options?.map(option => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -140,31 +167,21 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ rollNumber }) => {
             ))}
           </select>
         );
-      case 'radio':
-        return (
-          <div className="radio-group">
-            {field.options?.map(option => (
-              <label key={option.value} className="radio-label">
-                <input
-                  type="radio"
-                  name={field.fieldId}
-                  value={option.value}
-                  checked={formValues[field.fieldId] === option.value}
-                  onChange={(e) => handleInputChange(field.fieldId, e.target.value)}
-                  data-testid={option.dataTestId}
-                />
-                {option.label}
-              </label>
-            ))}
-          </div>
-        );
+
       default:
         return null;
     }
   };
 
   if (loading) {
-    return <div>Loading form...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner-container">
+          <div className="loading-spinner"></div>
+          <div className="loading-text">Loading your form...</div>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
